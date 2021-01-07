@@ -1,4 +1,5 @@
 import { JobQuery, JobsQuery } from './queries/job';
+
 const URL = 'http://localhost:9000/graphql';
 
 export const fetchJobs = async () => {

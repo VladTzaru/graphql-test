@@ -1,24 +1,21 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchJob } from './graphql/requests';
 
-export class JobDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { job: null };
-  }
+export const JobDetail = ({ match: { params } }) => {
+  const [job, setJob] = useState(null);
 
-  async componentDidMount() {
-    const { jobId } = this.props.match.params;
-    const job = await fetchJob(jobId);
-    this.setState({ job });
-  }
+  useEffect(() => {
+    const { jobId } = params;
+    const getJob = async () => {
+      const job = await fetchJob(jobId);
+      setJob(job);
+    };
+    getJob();
+  }, [params]);
 
-  render() {
-    const { job } = this.state;
-    if (!job) return null;
-
-    return (
+  return (
+    job && (
       <div>
         <h1 className='title'>{job.title}</h1>
         <h2 className='subtitle'>
@@ -26,6 +23,6 @@ export class JobDetail extends Component {
         </h2>
         <div className='box'>{job.description}</div>
       </div>
-    );
-  }
-}
+    )
+  );
+};
