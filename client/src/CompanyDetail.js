@@ -1,20 +1,25 @@
-import React, { Component } from 'react';
-import { companies } from './fake-data';
+import React, { useState, useEffect } from 'react';
+import { fetchCompany } from './graphql/requests';
 
-export class CompanyDetail extends Component {
-  constructor(props) {
-    super(props);
-    const {companyId} = this.props.match.params;
-    this.state = {company: companies.find((company) => company.id === companyId)};
-  }
+export const CompanyDetail = ({ match: { params } }) => {
+  const [company, setCompany] = useState(null);
 
-  render() {
-    const {company} = this.state;
-    return (
+  useEffect(() => {
+    const { companyId } = params;
+
+    const getCompany = async () => {
+      const company = await fetchCompany(companyId);
+      setCompany(company);
+    };
+    getCompany();
+  }, [params]);
+
+  return (
+    company && (
       <div>
-        <h1 className="title">{company.name}</h1>
-        <div className="box">{company.description}</div>
+        <h1 className='title'>{company.name}</h1>
+        <div className='box'>{company.description}</div>
       </div>
-    );
-  }
-}
+    )
+  );
+};

@@ -1,4 +1,5 @@
 import { JobQuery, JobsQuery } from './queries/job';
+import { CompanyQuery } from './queries/company';
 
 const URL = 'http://localhost:9000/graphql';
 
@@ -27,4 +28,9 @@ export const fetchJobs = async () => {
 export const fetchJob = async (id) => {
   const { job } = await graphQLRequest(JobQuery, { id });
   return job;
+};
+
+export const fetchCompany = async (id) => {
+  const { company } = await graphQLRequest(CompanyQuery, { id });
+  return company;
 };
