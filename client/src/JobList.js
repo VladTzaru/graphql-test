@@ -12,6 +12,6 @@ const renderJob = (job) => {
   );
 };
 
-export const JobList = ({ jobs }) => {
-  return <ul className='box'>{jobs.map(renderJob)}</ul>;
-};
+export const JobList = ({ jobs }) => (
+  <ul className='box'>{jobs.map(renderJob)}</ul>
+);
