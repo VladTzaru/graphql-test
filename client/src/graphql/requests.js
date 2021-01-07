@@ -1,5 +1,6 @@
 import { JobQuery, JobsQuery } from './queries/job';
 import { CompanyQuery } from './queries/company';
+import { CreateJobMutation } from './mutations/job';
 
 const URL = 'http://localhost:9000/graphql';
 
@@ -20,6 +21,7 @@ const graphQLRequest = async (query, variables = {}) => {
   return responseBody.data;
 };
 
+// Queries
 export const fetchJobs = async () => {
   const { jobs } = await graphQLRequest(JobsQuery);
   return jobs;
@@ -33,4 +35,10 @@ export const fetchJob = async (id) => {
 export const fetchCompany = async (id) => {
   const { company } = await graphQLRequest(CompanyQuery, { id });
   return company;
+};
+
+// Mutations
+export const createJob = async (jobDetails) => {
+  const { job } = await graphQLRequest(CreateJobMutation, { jobDetails });
+  return job;
 };
