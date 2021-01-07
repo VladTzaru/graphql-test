@@ -5,6 +5,10 @@ export const CompanyQuery = () =>
       id
       name
       description
+      jobs {
+        id
+        title
+      }
     }
   } 
 `;
