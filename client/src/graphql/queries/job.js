@@ -1,26 +1,28 @@
-export const JobQuery = () => `
+export const JobQuery = () =>
+  `
     query JobQuery($id: ID!) {
         job(id: $id) {
-        id
-        title
-        company {
             id
-            name
-        }
+            title
+            company {
+                id
+                name
+            }
         description
         }
     }  
 `;
 
-export const JobsQuery = () => ` 
+export const JobsQuery = () =>
+  ` 
     {
-    jobs {
-      id
-      title
-      company {
-        id
-        name
-      }
-    }
-  } 
+        jobs {
+            id
+            title
+            company {
+                id
+                name
+            }
+        }
+    } 
 `;

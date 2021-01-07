@@ -2,29 +2,22 @@ import { JobQuery, JobsQuery } from './queries/job';
 
 const URL = 'http://localhost:9000/graphql';
 
-export const fetchJobs = async () => {
+const graphQLRequest = async (query, variables = {}) => {
   const response = await fetch(URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      query: JobsQuery(),
-    }),
+    body: JSON.stringify({ query: query(), variables }),
   });
   const { data } = await response.json();
+  return data;
+};
+
+export const fetchJobs = async () => {
+  const data = await graphQLRequest(JobsQuery);
   return data.jobs;
 };
 
 export const fetchJob = async (id) => {
-  const response = await fetch(URL, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      query: JobQuery(),
-      variables: {
-        id,
-      },
-    }),
-  });
-  const { data } = await response.json();
+  const data = await graphQLRequest(JobQuery, { id });
   return data.job;
 };
