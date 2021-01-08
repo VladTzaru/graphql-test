@@ -1,9 +1,15 @@
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { JobQuery, JobsQuery } from './queries/job';
 import { CompanyQuery } from './queries/company';
 import { CreateJobMutation } from './mutations/job';
 import { getAccessToken, isLoggedIn } from '../auth';
 
 const URL = 'http://localhost:9000/graphql';
+
+const client = new ApolloClient({
+  link: new HttpLink({ uri: URL }),
+  cache: new InMemoryCache(),
+});
 
 // Generic method for graphQL requests
 const graphQLRequest = async (query, variables = {}) => {
