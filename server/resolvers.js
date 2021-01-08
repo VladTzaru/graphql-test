@@ -10,6 +10,8 @@ const Query = {
 const Mutation = {
   createJob: (_, { jobDetails }, context) => {
     if (!context.user) throw new Error('No way mister.');
+    if (jobDetails.title === '' || jobDetails.description === '')
+      throw new Error('No empty stuff please.');
     const id = db.jobs.create({
       ...jobDetails,
       companyId: context.user.companyId,

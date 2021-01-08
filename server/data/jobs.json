@@ -24,33 +24,9 @@
     "description": "Social media management and promotion."
   },
   {
-    "id": "S1ZbnbURv",
-    "companyId": "HJRa-DOuG",
-    "title": "New Job 1",
-    "description": "This is job 2"
-  },
-  {
-    "id": "Hyud-fU0D",
-    "companyId": "HJRa-DOuG",
-    "title": "New Job 3",
-    "description": "This is job 3"
-  },
-  {
-    "id": "SJCsbzL0v",
-    "companyId": "HJRa-DOuG",
-    "title": "test",
-    "description": "test"
-  },
-  {
-    "id": "S1L3mz8RD",
-    "title": "New Job 3",
-    "description": "This is job 3",
-    "companyId": "HJRa-DOuG"
-  },
-  {
-    "id": "H1DgEzICw",
-    "title": "Vladikus",
-    "description": "popizidkus\n",
+    "id": "ByBirfURv",
+    "title": "Web designer",
+    "description": "We need a person who can pretty much do everything but we pretend we only need 1 thing. Yes, we are also illiterate assholes here.",
     "companyId": "HJRa-DOuG"
   }
 ]
