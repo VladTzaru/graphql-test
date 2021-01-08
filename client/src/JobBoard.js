@@ -6,7 +6,10 @@ export const JobBoard = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    const getJobs = async () => setJobs(await fetchJobs());
+    const getJobs = async () => {
+      const jobs = await fetchJobs();
+      setJobs(jobs);
+    };
     getJobs();
   }, []);
 

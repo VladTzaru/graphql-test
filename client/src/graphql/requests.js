@@ -1,4 +1,9 @@
-import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+} from 'apollo-boost';
 import { JobQuery, JobsQuery } from './queries/job';
 import { CompanyQuery } from './queries/company';
 import { CreateJobMutation } from './mutations/job';
@@ -6,51 +11,74 @@ import { getAccessToken, isLoggedIn } from '../auth';
 
 const URL = 'http://localhost:9000/graphql';
 
+// A middleware we use before we send a HTTP link as presented below
+const authLink = new ApolloLink((operation, forward) => {
+  if (isLoggedIn())
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
+
+  return forward(operation);
+});
+
 const client = new ApolloClient({
-  link: new HttpLink({ uri: URL }),
+  link: ApolloLink.from([authLink, new HttpLink({ uri: URL })]),
   cache: new InMemoryCache(),
 });
 
 // Generic method for graphQL requests
-const graphQLRequest = async (query, variables = {}) => {
-  const request = {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ query: query(), variables }),
-  };
+// const graphQLRequest = async (query, variables = {}) => {
+//   const request = {
+//     method: 'POST',
+//     headers: { 'content-type': 'application/json' },
+//     body: JSON.stringify({ query: query(), variables }),
+//   };
 
-  if (isLoggedIn())
-    request.headers['authorization'] = 'Bearer ' + getAccessToken();
+//   if (isLoggedIn())
+//     request.headers['authorization'] = 'Bearer ' + getAccessToken();
 
-  const response = await fetch(URL, request);
-  const responseBody = await response.json();
-  if (responseBody.errors) {
-    const message = responseBody.errors
-      .map((error) => error.message)
-      .join('\n');
-    throw new Error(message);
-  }
-  return responseBody.data;
-};
+//   const response = await fetch(URL, request);
+//   const responseBody = await response.json();
+//   if (responseBody.errors) {
+//     const message = responseBody.errors
+//       .map((error) => error.message)
+//       .join('\n');
+//     throw new Error(message);
+//   }
+//   return responseBody.data;
+// };
 
 // Queries
 export const fetchJobs = async () => {
-  const { jobs } = await graphQLRequest(JobsQuery);
+  const {
+    data: { jobs },
+  } = await client.query({ query: JobsQuery() });
   return jobs;
 };
 
 export const fetchJob = async (id) => {
-  const { job } = await graphQLRequest(JobQuery, { id });
+  const {
+    data: { job },
+  } = await client.query({ query: JobQuery(), variables: { id } });
   return job;
 };
 
 export const fetchCompany = async (id) => {
-  const { company } = await graphQLRequest(CompanyQuery, { id });
+  const {
+    data: { company },
+  } = await client.query({ query: CompanyQuery(), variables: { id } });
   return company;
 };
 
 // Mutations
 export const createJob = async (jobDetails) => {
-  const { job } = await graphQLRequest(CreateJobMutation, { jobDetails });
+  const {
+    data: { job },
+  } = await client.mutate({
+    mutation: CreateJobMutation(),
+    variables: { jobDetails },
+  });
   return job;
 };

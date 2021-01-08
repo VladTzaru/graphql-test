@@ -1,14 +1,16 @@
+import gql from 'graphql-tag';
+
 export const CompanyQuery = () =>
-  `
-  query CompanyQuery($id: ID!) {
-    company(id: $id) {
-      id
-      name
-      description
-      jobs {
+  gql`
+    query CompanyQuery($id: ID!) {
+      company(id: $id) {
         id
-        title
+        name
+        description
+        jobs {
+          id
+          title
+        }
       }
     }
-  } 
-`;
+  `;
