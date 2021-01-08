@@ -8,7 +8,8 @@ const Query = {
 };
 
 const Mutation = {
-  createJob: (_, { jobDetails }) => {
+  createJob: (_, { jobDetails }, context) => {
+    if (!context.user) throw new Error('No way mister.');
     const id = db.jobs.create(jobDetails);
     return db.jobs.get(id);
   },

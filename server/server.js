@@ -24,10 +24,12 @@ app.use(
 const typeDefs = gql(
   fs.readFileSync('./schema.graphql', { encoding: 'utf-8' })
 );
+const context = ({ req }) => ({ user: req.user });
 const resolvers = require('./resolvers');
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context,
 });
 apolloServer.applyMiddleware({ app, path: '/graphql' });
 // Apollo config ends
