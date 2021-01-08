@@ -54,7 +54,7 @@ const client = new ApolloClient({
 export const fetchJobs = async () => {
   const {
     data: { jobs },
-  } = await client.query({ query: JobsQuery() });
+  } = await client.query({ query: JobsQuery(), fetchPolicy: 'no-cache' });
   return jobs;
 };
 
