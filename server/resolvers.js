@@ -9,9 +9,11 @@ const Query = {
 
 const Mutation = {
   createJob: (_, { jobDetails }, context) => {
-    console.log(context.user);
     if (!context.user) throw new Error('No way mister.');
-    const id = db.jobs.create(jobDetails);
+    const id = db.jobs.create({
+      ...jobDetails,
+      companyId: context.user.companyId,
+    });
     return db.jobs.get(id);
   },
 };
